@@ -1,6 +1,7 @@
+/* --- Base Styles --- */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #121212;
+    background-color: #0f0f12; /* Darker, richer background */
     color: #e0e0e0;
     margin: 0;
     padding: 0;
@@ -12,21 +13,64 @@ body {
     padding: 0 20px;
 }
 
+/* --- Header & Search --- */
 header {
-    background-color: #1f1f1f;
-    padding: 40px 0;
-    text-align: center;
-    border-bottom: 3px solid #00d2ff;
+    background: linear-gradient(180deg, #1a1a20 0%, #121212 100%);
+    padding: 30px 0;
+    border-bottom: 2px solid #00d2ff;
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.1);
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 header h1 {
     margin: 0;
-    font-size: 3rem;
-    color: #00d2ff;
+    font-size: 3.5rem;
+    color: #fff;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 0px #00d2ff; /* Retro Arcade Shadow */
 }
 
+header p {
+    margin: 5px 0 0 0;
+    color: #00d2ff;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Search Bar Styling */
+.search-container {
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+}
+
+#search-bar {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    background-color: #25252b;
+    border: 2px solid #333;
+    border-radius: 50px; /* Fully rounded pill shape */
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Prevents padding from breaking width */
+}
+
+#search-bar:focus {
+    border-color: #00d2ff;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+    background-color: #2a2a30;
+}
+
+/* --- Game Grid --- */
 .game-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -34,62 +78,93 @@ header h1 {
     padding: 50px 0;
 }
 
-/* Game Card Styling */
+/* --- Game Cards (Visual Polish) --- */
 .game-card {
-    background-color: #1e1e1e;
-    border-radius: 12px;
+    background-color: #1a1a20;
+    border-radius: 16px;
     overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
     border: 1px solid #333;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                box-shadow 0.3s ease, 
+                border-color 0.3s ease;
+    position: relative;
 }
 
+/* The Hover Effect */
 .game-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 210, 255, 0.2);
+    transform: translateY(-8px) scale(1.02); /* Lifts and slightly grows */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
     border-color: #00d2ff;
 }
 
 .game-link {
     text-decoration: none;
     color: inherit;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.img-container {
+    overflow: hidden; /* Keeps image inside rounded corners during zoom */
+    height: 180px;
 }
 
 .game-card img {
     width: 100%;
-    height: 180px;
+    height: 100%;
     object-fit: cover;
-    background-color: #000;
+    transition: transform 0.5s ease;
+}
+
+.game-card:hover img {
+    transform: scale(1.1); /* Subtle zoom on image when hovering card */
 }
 
 .card-content {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .card-content h3 {
     margin: 0 0 10px 0;
     color: #fff;
+    font-size: 1.4rem;
 }
 
 .card-content p {
     font-size: 0.9rem;
     color: #aaa;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Pushes the button to the bottom */
+    line-height: 1.5;
 }
 
 .play-btn {
-    display: inline-block;
-    background-color: #00d2ff;
-    color: #000;
-    padding: 8px 16px;
-    border-radius: 4px;
+    text-align: center;
+    background: transparent;
+    color: #00d2ff;
+    padding: 10px;
+    border: 2px solid #00d2ff;
+    border-radius: 8px;
     font-weight: bold;
-    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
 }
 
+.game-card:hover .play-btn {
+    background-color: #00d2ff;
+    color: #000; /* Inverts colors on hover */
+    box-shadow: 0 0 10px #00d2ff;
+}
+
+/* --- Footer --- */
 footer {
     text-align: center;
-    padding: 40px;
-    color: #666;
+    padding: 60px;
+    color: #555;
     margin-top: auto;
+    border-top: 1px solid #222;
 }
