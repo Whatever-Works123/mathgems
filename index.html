@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Game Arcade</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Arcade.Zone</h1>
+            <p>Free HTML5 Games</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="game-grid" class="game-grid">
+            </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 My Game Arcade</p>
+    </footer>
+
+    <script src="games-config.js"></script>
+    
+    <script>
+        const grid = document.getElementById('game-grid');
+
+        games.forEach(game => {
+            // Create the card
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            
+            // Allow for a default image if one isn't provided
+            const imageSrc = game.thumbnail ? game.thumbnail : 'https://via.placeholder.com/300x200?text=No+Image';
+
+            card.innerHTML = `
+                <a href="games/${game.folder}/index.html" class="game-link">
+                    <img src="${imageSrc}" alt="${game.title}">
+                    <div class="card-content">
+                        <h3>${game.title}</h3>
+                        <p>${game.description}</p>
+                        <span class="play-btn">Play Now</span>
+                    </div>
+                </a>
+            `;
+
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
