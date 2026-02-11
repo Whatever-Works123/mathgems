@@ -3,51 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Gems</title>
+    <title>Arcade.Zone</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <h1>Games</h1>
+        <div class="container header-content">
+            <div class="logo-area">
+                <h1>Arcade.Zone</h1>
+                <p>Free HTML5 Games</p>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" id="search-bar" placeholder="Find a game...">
+            </div>
         </div>
     </header>
 
     <main class="container">
+        <p id="no-results" style="display:none; text-align:center; color:#666;">No games found...</p>
+        
         <div id="game-grid" class="game-grid">
             </div>
     </main>
 
     <footer>
-        <a href="https://whatever-works123.github.io/Study-Bot/#chatbot">StudyBox OS<a/>
+        <p>&copy; 2024 Arcade.Zone</p>
     </footer>
 
     <script src="games-config.js"></script>
     
     <script>
         const grid = document.getElementById('game-grid');
+        const searchInput = document.getElementById('search-bar');
+        const noResults = document.getElementById('no-results');
 
-        games.forEach(game => {
-            // Create the card
-            const card = document.createElement('div');
-            card.className = 'game-card';
+        // Function to display games
+        function renderGames(gameList) {
+            grid.innerHTML = ''; // Clear current grid
+
+            if (gameList.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            } else {
+                noResults.style.display = 'none';
+            }
+
+            gameList.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                
+                // Fallback image logic
+                const imageSrc = game.thumbnail ? game.thumbnail : 'https://via.placeholder.com/300x200/333/00d2ff?text=' + game.title;
+
+                card.innerHTML = `
+                    <a href="games/${game.folder}/index.html" class="game-link">
+                        <div class="img-container">
+                            <img src="${imageSrc}" alt="${game.title}">
+                        </div>
+                        <div class="card-content">
+                            <h3>${game.title}</h3>
+                            <p>${game.description}</p>
+                            <span class="play-btn">PLAY</span>
+                        </div>
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Initial Render (Show all games on load)
+        renderGames(games);
+
+        // Search Logic (Runs every time you type)
+        searchInput.addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
             
-            // Allow for a default image if one isn't provided
-            const imageSrc = game.thumbnail ? game.thumbnail : 'https://via.placeholder.com/300x200?text=No+Image';
+            // Filter the list based on Title OR Description
+            const filteredGames = games.filter(game => 
+                game.title.toLowerCase().includes(term) || 
+                game.description.toLowerCase().includes(term)
+            );
 
-            card.innerHTML = `
-                <a href="games/${game.folder}/index.html" class="game-link">
-                    <img src="${imageSrc}" alt="${game.title}">
-                    <div class="card-content">
-                        <h3>${game.title}</h3>
-                        <p>${game.description}</p>
-                        <span class="play-btn">Play Now</span>
-                    </div>
-                </a>
-            `;
-
-            grid.appendChild(card);
+            renderGames(filteredGames);
         });
     </script>
 </body>
