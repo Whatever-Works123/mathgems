@@ -17,7 +17,7 @@ const games = [
     id: "tetris",
     title: "Tetris",
     description: "It's Tetris",
-    folder: "Tetris", // WARNING: Read the note below about this capital 'T'
+    folder: "tetris", // WARNING: Read the note below about this capital 'T'
     thumbnail: ""
   }
 ];
