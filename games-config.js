@@ -1,23 +1,19 @@
 const games = [
-  {
-    id: "asteroids",
-    title: "Asteroids",
-    description: "Classic space shooter.", // <--- FIXED: You were missing a comma here!
-    folder: "asteroids",
-    thumbnail: ""
-  }, 
+    const games = [
   {
     id: "flappybird",
     title: "CrappyBird",
     description: "See how long you can go.",
     folder: "crappybird", 
-    thumbnail: "" // Added this just to keep it consistent
-  },
+    // FIX: Changed outer quotes to single quotes (') so double quotes (") work inside
+    thumbnail: '<img src="data:image/png;base64,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
+  }
   {
+
     id: "tetris",
     title: "Tetris",
     description: "It's Tetris",
-    folder: "tetris", // WARNING: Read the note below about this capital 'T'
+    folder: "tetris",
     thumbnail: ""
   }
 ];
