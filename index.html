@@ -3,68 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Gems</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Arcade.Zone</title>
+    <style>
+        /* --- CSS STYLES --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f0f12;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            background: linear-gradient(180deg, #1a1a20 0%, #121212 100%);
+            padding: 30px 0;
+            border-bottom: 2px solid #00d2ff;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.1);
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 0px #00d2ff;
+        }
+        header p {
+            margin: 5px 0 20px 0;
+            color: #00d2ff;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        #search-bar {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            background-color: #25252b;
+            border: 2px solid #333;
+            border-radius: 50px;
+            color: white;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        #search-bar:focus {
+            border-color: #00d2ff;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 50px 0;
+        }
+        .game-card {
+            background-color: #1a1a20;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #333;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            border-color: #00d2ff;
+        }
+        .game-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .img-container {
+            height: 180px;
+            overflow: hidden;
+            background: #000;
+        }
+        .game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .card-content h3 {
+            margin: 0 0 10px 0;
+            color: #fff;
+            font-size: 1.4rem;
+        }
+        .card-content p {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .play-btn {
+            margin-top: auto;
+            text-align: center;
+            color: #00d2ff;
+            padding: 10px;
+            border: 2px solid #00d2ff;
+            border-radius: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .game-card:hover .play-btn {
+            background-color: #00d2ff;
+            color: #000;
+        }
+    </style>
 </head>
 <body>
 
     <header>
-        <div class="container header-content">
-            <div class="logo-area">
-                <h1>Games</h1>
-                </div>
-            
-            <div class="search-container">
-                <input type="text" id="search-bar" placeholder="Find a game...">
-            </div>
+        <div class="container">
+            <h1>Arcade.Zone</h1>
+            <p>Free HTML5 Games</p>
+            <input type="text" id="search-bar" placeholder="Find a game...">
         </div>
     </header>
 
     <main class="container">
-        <p id="no-results" style="display:none; text-align:center; color:#666;">No games found...</p>
-        
-        <div id="game-grid" class="game-grid">
-            </div>
+        <p id="no-results" style="display:none; text-align:center; color:#666; margin-top:50px;">No games found...</p>
+        <div id="game-grid" class="game-grid"></div>
     </main>
 
-    <footer>
-        <a href="https://whatever-works123.github.io/Study-Bot/#chatbot">ChatBox</a>
-    </footer>
-
-    <script src="games-config.js"></script>
-    
     <script>
+        // --- EDIT YOUR GAMES LIST HERE ---
+        const games = [
+            {
+                id: "asteroids",
+                title: "Asteroids",
+                description: "Classic space shooter.",
+                folder: "asteroids", 
+                thumbnail: "" // Uses placeholder if empty
+            },
+            {
+                id: "flappybird",
+                title: "CrappyBird",
+                description: "See how long you can go.",
+                folder: "crappybird", 
+                thumbnail: ""
+            },
+            {
+                id: "tetris",
+                title: "Tetris",
+                description: "Block stacking fun.",
+                folder: "tetris",
+                thumbnail: ""
+            }
+        ];
+
+        // --- DO NOT TOUCH BELOW THIS LINE ---
         const grid = document.getElementById('game-grid');
         const searchInput = document.getElementById('search-bar');
         const noResults = document.getElementById('no-results');
 
-        // Function to display games
-        function renderGames(gameList) {
-            grid.innerHTML = ''; // Clear current grid
-
-            if (gameList.length === 0) {
+        function renderGames(list) {
+            grid.innerHTML = '';
+            
+            if (list.length === 0) {
                 noResults.style.display = 'block';
                 return;
-            } else {
-                noResults.style.display = 'none';
             }
+            noResults.style.display = 'none';
 
-            gameList.forEach(game => {
+            list.forEach(game => {
                 const card = document.createElement('div');
                 card.className = 'game-card';
-                
-                // Fallback image logic
-                const imageSrc = game.thumbnail ? game.thumbnail : 'https://via.placeholder.com/300x200/333/00d2ff?text=' + game.title;
+                // Placeholder image generator
+                const img = game.thumbnail ? game.thumbnail : `https://placehold.co/600x400/1a1a20/00d2ff?text=${game.title}`;
 
                 card.innerHTML = `
                     <a href="games/${game.folder}/index.html" class="game-link">
                         <div class="img-container">
-                            <img src="${imageSrc}" alt="${game.title}">
+                            <img src="${img}" alt="${game.title}">
                         </div>
                         <div class="card-content">
                             <h3>${game.title}</h3>
                             <p>${game.description}</p>
-                            <span class="play-btn">PLAY</span>
+                            <span class="play-btn">PLAY NOW</span>
                         </div>
                     </a>
                 `;
@@ -72,20 +200,17 @@
             });
         }
 
-        // Initial Render (Show all games on load)
+        // Initial Load
         renderGames(games);
 
-        // Search Logic (Runs every time you type)
+        // Search Logic
         searchInput.addEventListener('keyup', (e) => {
             const term = e.target.value.toLowerCase();
-            
-            // Filter the list based on Title OR Description
-            const filteredGames = games.filter(game => 
-                game.title.toLowerCase().includes(term) || 
-                game.description.toLowerCase().includes(term)
+            const filtered = games.filter(g => 
+                g.title.toLowerCase().includes(term) || 
+                g.description.toLowerCase().includes(term)
             );
-
-            renderGames(filteredGames);
+            renderGames(filtered);
         });
     </script>
 </body>
